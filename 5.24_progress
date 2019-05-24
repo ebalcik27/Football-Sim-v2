@@ -1,0 +1,1109 @@
+let footballSim = {
+    gameInformation: {
+        teamNegativeOneScore: 0,
+        teamOneScore: 0,
+        clock: 900,
+        posession: -1,
+        positionX: 0,
+        positionY: 0,
+        firstDownPositionX: -10,
+        down: 0,
+        quarter: 0,
+        topBoundary: 25,
+        bottomBoundary: -25,
+        teamNegativeOneGoal: -50,
+        teamOneGoal: 50,
+        lastPlayType: '',
+        lastPlayChangePositionX = 0,
+        lastPlayFlagOffense: false,
+        lastPlayFlagDefense: false,
+        lastPlayOffenseBigPlay: false,
+        lastPlayDefenseBigPlay: false,
+        lastPlayOutOfBounds: false,
+        lastPlayIncomplete: false,
+        lastPlayPosessionChange: false,
+        clockRoll: false,
+        lastPlayFirstDown: false,
+        lastPlayScore: false,
+        openingKickoffReceivingTeam: 1
+    },
+    
+    //scoreboard information and other relevant information for calculating events
+    
+    
+    
+    //
+    //
+    //Play
+    //Functions
+    //
+    //
+    
+    
+    
+    changeClockFundamental : function (x) {
+      footballSim.gameInformation.clock = (footballSim.gameInformation.clock - x)
+    },
+    changePositionXFundamental : function (x) {
+      footballSim.gameInformation.positionX = (footballSim.gameInformation.positionX + x)
+    },
+    changeLastPlayChangePositionXFundamental : function (x) {
+      footballSim.gameInformation.lastPlayChangePositionX = x
+    }
+    changePositionYFundamental : function (x) {
+      footballSim.gameInformation.positionY = (footballSim.gameInformation.positionY + x)
+    },
+    changePosessionFundamental : function (x) {
+      if (x = true) {
+        footballSim.gameInformation.posession = (footballSim.gameInformation.posession * -1)
+      } else {
+        footballSim.gameInformation.posession = (footballSim.gameInformation.posession * 1)
+      }
+    },
+    changeScoreFundamental : function (x) {
+      if (posession > 0) {
+        footballSim.gameInformation.teamOneScore = (footballSim.gameInformation.teamOneScore + x)
+      } else {
+        footballSim.gameInformation.teamNegativeOneScore = (footballSim.gameInformation.teamNegativeOneScore + x)
+      }
+    },
+    
+    
+    
+    //fundamental change functions, these functions changed gameInformation based on a number input, or a boolean input for changePosessionFundamental
+    
+    
+    
+    neutralZoneInfraction : function () {
+      console.log ('Play is called dead, I think the flag is on the defense');
+      let u = footballSim.gameInformation.firstDownPositionX;
+      let v = footballSim.gameInformation.posession;
+      let w = footballSim.gameInformation.positionX;
+      let x = footballSim.gameInformation.teamOneGoal;
+      let y = (u*v) - (w*v)
+      let z = x - (w*v);
+      if (z > 5) {
+        console.log ('Neutral zone infraction, defense, 5 yard penalty');
+        if (y > 5) {
+          footballSim.changePositionXFundamental (5*v);
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+        } else {
+          footballSim.changePositionXFundamental (5*v);
+          //
+          //
+          //here is where there should be a change first down position x function that conditionally changes first down based on input
+          //
+          //;
+          //
+          //
+          //here is where there should be a change down function that conditionally changes down based on input
+          //
+          //;
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+        }
+      } else {
+        console.log ('Neutral zone infraction, defense, half the distance');
+        if (y > 5) {
+          footballSim.changePositionXFundamental (Math.floor(z*v/2));
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+        } else {
+          footballSim.changePositionXFundamental (Math.floor(z*v/2));
+          //
+          //
+          //here is where there should be a change first down position x function that conditionally changes first down based on input
+          //
+          //;
+          //
+          //
+          //here is where there should be a change down function that conditionally changes down based on input
+          //
+          //;
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+      }
+    },
+    encroachment : function () {
+      console.log ('Play is called dead, I think the flag is on the defense');
+      let u = footballSim.gameInformation.firstDownPositionX;
+      let v = footballSim.gameInformation.posession;
+      let w = footballSim.gameInformation.positionX;
+      let x = footballSim.gameInformation.teamOneGoal;
+      let y = (u*v) - (w*v)
+      let z = (x*v) - (w*v);
+      if (z > 10) {
+        console.log ('Encroachment, defense, 5 yard penalty');
+        if (y > 5) {
+          footballSim.changePositionXFundamental (5*v);
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+        } else {
+          footballSim.changePositionXFundamental (5*v);
+          //
+          //
+          //here is where there should be a change first down position x function that conditionally changes first down based on input
+          //
+          //;
+          //
+          //
+          //here is where there should be a change down function that conditionally changes the down based on input
+          //
+          //;
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+        }
+      } else {
+        console.log ('Encroachment, defense, half the distance');
+        if (y > 5) {
+          footballSim.changePositionXFundamental (Math.floor(z*v/2));
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+        } else {
+          footballSim.changePositionXFundamental (Math.floor(z*v/2));
+          //
+          //
+          //here is where there should be a change first down position x function that conditionally changes first down based on input
+          //
+          //;
+          //
+          //
+          //here is where there should be a change down function that conditionally changes down based on input
+          //
+          //;
+          //
+          //
+          //here is where we restart the loop and call a new play
+          //
+          //
+      }
+    },
+    illegalSubstitutionOffense : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      console.log ('Play is called dead, I think the flag is on the offense');
+      if (z > 10) {
+        console.log ('Illegal substitution, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (-5*w)
+      } else {
+        console.log ('Illegal substitution, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    tooManyMenOnFieldOffense : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      console.log ('Play is called dead, I think the flag is on the offense');
+      if (z > 10) {
+        console.log ('Too many men on the field, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (-5*w)
+      } else {
+        console.log ('Too many men on the field, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    illegalMotion : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      console.log ('Play is called dead, I think the flag is on the offense');
+      if (z > 10) {
+        console.log ('Illegal moton, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (-5*w)
+      } else {
+        console.log ('Illegal motion, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    illegalShift : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      console.log ('Play is called dead, I think the flag is on the offense');
+      if (z > 10) {
+        console.log ('Illegal shift, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (-5*w)
+      } else {
+        console.log ('Illegal shift, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    illegalFormation : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      console.log ('Play is called dead, I think the flag is on the offense');
+      if (z > 10) {
+        console.log ('Illegal formation, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (-5*w)
+      } else {
+        console.log ('Illegal formation, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (Math.floor(z*w/2))
+      }
+    },
+    falseStart : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      console.log ('Play is called dead, I think the flag is on the offense');
+      if (z > 10) {
+        console.log ('False start, offense, 5 yard penalty');
+        footballSim.changePositionXFundamental (-5*w)
+      } else {
+        console.log ('False start, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    targetingOffense : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      if (z > 30) {
+        console.log ('Targeting, offense, 15 yard penalty');
+        footballSim.changePositionXFundamental (-15*w)
+      } else {
+        console.log ('Targeting, offense, 15 yard penalty');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    tauntingOffense : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      if (z > 30) {
+        console.log ('Taunting, offense, 15 yard penalty');
+        footballSim.changePositionXFundamental (-15*w)
+      } else {
+        console.log ('Taunting, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    chopBlock : function () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      if (z > 30) {
+        console.log ('Chop block, offense, 15 yard penalty');
+        footballSim.changePositionXFundamental (-15*w)
+      } else {
+        console.log ('Chop block, offense, 15 yard penalty');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    illegalUseOfHandsOffense () {
+      let w = footballSim.gameInformation.posession;
+      let x = footballSim.gameInformation.positionX;
+      let y = footballSim.gameInformation.teamNegativeOneGoal;
+      let z = (w*x) - (w*y);
+      if (z > 20) {
+        console.log ('Illegal use of hands, offense, 10 yard penalty');
+        footballSim.changePositionXFundamental (-10*w)
+      } else {
+        console.log ('Illegal use of hands, offense, half the distance');
+        footballSim.changePositionXFundamental (Math.floor(-z*w/2))
+      }
+    },
+    unnecessaryRoughnessOffense () {
+      console.log ('Unnecessary roughness, offense, 15 yard penalty');
+      footballSim.changePositionXFundamental (-15*footballSim.gameInformation.posession)
+    },
+    holdingOffense () {
+      
+    },
+    illegalSubstitutionDefense () {},
+    targetingDefense () {},
+    trippingPenalty () {},
+    tauntingDefense () {},
+    horsecollarPenalty () {},
+    illegalUseOfHandsDefense () {},
+    unsportsmanlikeConductDefense () {},
+    tooManyMenOnFieldDefense () {},
+    unnecessaryRoughnessDefense () {},
+    facemaskPenalty () {},
+    offsidesPenalty () {},
+    holdingDefense () {},
+    
+    
+    
+    // flag functions
+    
+    
+    
+    checkFlagInsideRun : function () {
+      let a = Math.floor(Math.random()*100);
+      if (a >= 95) {
+        console.log ('Flag is down');
+        let b = Math.floor(Math.random()*100);
+        if (b >=35) {
+          let c = Math.floor(Math.random()*100);
+          if (c >= 22) {
+            footballSim.gameInformation.lastPlayFlagDefense = true;
+            console.log ('We will have to wait and see what the call is');
+            footballSim.checkBigPlayOffenseInsideRun ()
+          } else {
+            footballSim.gameInformation.clockRoll = false;
+            let d = Math.floor(Math.random()*100);
+            if (d >= 77) {
+              footballSim.encroachment ()
+            } else {
+              footballSim.neutralZoneInfraction ()
+            }
+          }    
+        } else {
+          let x = Math.floor(Math.random()*100);
+          if (m >= 46) {
+            footballSim.gameInformation.lastPlayFlagOffense = true;
+            console.log ('We will see what the penalty was after the play');
+            footballSim.checkBigPlayOffenseInsideRun ()
+          } else {
+            footballSim.gameInformation.clockRoll = false;
+            let n = Math.floor(Math.random()*100);
+            if (n < 1) {
+              footballSim.illegalSubstitutionOffense ()
+            } else if (n >= 1 && n < 3) {
+              footballSim.tooManyMenOnFieldOffense ()
+            } else if (n >= 3 && n < 5) {
+              footballSim.illegalMotion ()
+            } else if (n >= 5 && n < 10) {
+              footballSim.illegalShift ()
+            } else if (n >= 10 && n < 20) {
+              footballSim.illegalFormation ()
+            } else {
+              footballSim.falseStart ()
+            }
+          }
+        }
+      } else {
+        footballSim.gameInformation.lastPlayFlagOffense = false;
+        footballSim.gameInformation.lastPlayFlagDefense = false;
+        footballSim.checkBigPlayOffenseInsideRun ()
+      }
+    },
+    checkFlagOutsideRun : function () {
+      let a = Math.floor(Math.random()*100);
+      if (a >= 95) {
+        console.log ('Flag is down');
+        let b = Math.floor(Math.random()*100);
+        if (b >=35) {
+          let c = Math.floor(Math.random()*100);
+          if (c >= 22) {
+            footballSim.gameInformation.lastPlayFlagDefense = true;
+            console.log ('We will have to wait and see what the call is');
+            footballSim.checkBigPlayOffenseOutsideRun ()
+          } else {
+            footballSim.gameInformation.clockRoll = false;
+            let d = Math.floor(Math.random()*100);
+            if (d >= 77) {
+              footballSim.encroachment ()
+            } else {
+              footballSim.neutralZoneInfraction ()
+            }
+          }    
+        } else {
+          let x = Math.floor(Math.random()*100);
+          if (m >= 46) {
+            footballSim.gameInformation.lastPlayFlagOffense = true;
+            console.log ('We will see what the penalty was after the play');
+            footballSim.checkBigPlayOffenseOutsideRun ()
+          } else {
+            footballSim.gameInformation.clockRoll = false;
+            let n = Math.floor(Math.random()*100);
+            if (n < 1) {
+              footballSim.illegalSubstitutionOffense ()
+            } else if (n >= 1 && n < 3) {
+              footballSim.tooManyMenOnFieldOffense ()
+            } else if (n >= 3 && n < 5) {
+              footballSim.illegalMotion ()
+            } else if (n >= 5 && n < 10) {
+              footballSim.illegalShift ()
+            } else if (n >= 10 && n < 20) {
+              footballSim.illegalFormation ()
+            } else {
+              footballSim.falseStart ()
+            }
+          }
+        }
+      } else {
+        footballSim.gameInformation.lastPlayFlagOffense = false;
+        footballSim.gameInformation.lastPlayFlagDefense = false;
+        footballSim.checkBigPlayOffenseOutsideRun ()
+      }
+    },
+    checkFlagShortPass : function () {},
+    checkFlagMediumPass : function () {},
+    checkFlagDeepPass : function () {},
+    checkFlagSidelinePass : function () {},
+    checkFlagScreenPass : function () {},
+    checkFlagHailMary : function () {},
+    checkFlagFieldGoal : function () {},
+    checkFlagPunt : function () {},
+    checkFlagOpeningKickoff : function () {},
+    checkFlagKickoff : function () {},
+    checkFlagExtraPoint : function () {},
+    checkFlagTouchDown : function () {},
+    checkFlagTwoPointConversion : function () {},
+    //it should rng for flag based on data of flag to no flag by play type
+    
+    checkBigPlayOffenseInsideRun : function () {},
+    checkBigPlayOffenseOutsideRun : function () {},
+    checkBigPlayOffenseShortPass : function () {},
+    checkBigPlayOffenseMediumPass : function () {},
+    checkBigPlayOffenseDeepPass : function () {},
+    checkBigPlayOffenseSidelinePass : function () {},
+    checkBigPlayScreenPass : function () {},
+    checkBigPlayOffenseHailMary : function () {},
+    checkBigPlayOffenseFieldGoal : function () {},
+    checkBigPlayOffensePunt : function () {},
+    checkBigPlayOffenseOpeningKickoff : function () {},
+    checkBigPlayOffenseKickoff : function () {},
+    checkBigPlayOffenseExtraPoint : function () {},
+    checkBigPlayOffenseTwoPointConversion : function () {},
+    //it should rng for a big play based on data of big play to not big play offense
+    
+    checkBigPlayDefenseInsideRun : function () {},
+    checkBigPlayDefenseOutsideRun : function () {},
+    checkBigPlayDefenseShortPass : function () {},
+    checkBigPlayDefenseMediumPass : function () {},
+    checkBigPlayDefenseDeepPass : function () {},
+    checkBigPlayDefenseSidelinePass : function () {},
+    checkBigPlayDefenseScreenPass : function () {},
+    checkBigPlayDefenseHailMary : function () {},
+    checkBigPlayDefenseFieldGoal : function () {},
+    checkBigPlayDefensePunt : function () {},
+    checkBigPlayDefenseOpeningKickoff : function () {},
+    checkBigPlayDefenseKickoff : function () {},
+    checkBigPlayDefenseExtraPoint : function () {},
+    checkBigPlayOffenseTwoPointConversion : function () {},
+    //it should rng for a big play based on data of big play to not big play defense
+    
+    changePositionXInsideRun : function () {},
+    changePositionXOutsideRun : function () {},
+    changePositionXShortPass : function () {},
+    changePositionXMediumPass : function () {},
+    changePositionXDeepPass : function () {},
+    changePositionXSidelinePass : function () {},
+    changePositionXScreenPass : function () {},
+    changePositionXHailMary : function () {},
+    changePositionXFieldGoal : function () {},
+    changePositionXPunt : function () {},
+    changePositionXOpeningKickoff : function () {},
+    changePositionXKickoff : function () {},
+    changePositionXTouchdown : function () {},
+    changePositionXPointAfterTouchdown () {},
+    //it should rng for change in x by play type based on data and subtract or add that change from gameInformation.positionX based on posession
+    
+    changePositionYInsideRun : function () {},
+    changePositionYOutsideRun : function () {},
+    changePositionYShortPass : function () {},
+    changePositionYMediumPass : function () {},
+    changePositionYDeepPass : function () {},
+    changePositionYSidelinePass : function () {},
+    changePositionYScreenPass : function () {},
+    changePositionYHailMary : function () {},
+    changePositionYFieldGoal : function () {},
+    changePositionYPunt : function () {},
+    changePositionYOpeningKickoff : function () {},
+    changePositionYKickoff : function () {},
+    changePositionYTouchdown : function () {},
+    changePositionYPointAfterTouchdown () {},
+    //it should rng for change in y by play type based on data and subtract or add that change from gameInformation.positionX based on posession
+    
+    changeClockInsideRun : function () {},
+    changeClockOutsideRun : function () {},
+    changeClockShortPass : function () {},
+    changeClockMediumPass : function () {},
+    changeClockDeepPass : function () {},
+    changeClockSidelinePass : function () {},
+    changeClockScreenPass : function () {},
+    changeClockHailMary : function () {},
+    changeClockFieldGoal : function () {},
+    changeClockPunt : function () {},
+    changeClockOpeningKickoff : function () {},
+    changeClockKickoff : function () {},
+    //it should rng for play duration based on duration by play type data and subtract that from gameInformation.clock
+    
+    
+    
+    //
+    //building block functions for the parent play functions
+    //
+    
+    
+    
+    checkPosessionChange : function () {},
+    //it should check posession change by using footballSim.gameInformation.lastPlayPosessionChange
+    checkOutOfBounds : function () {},
+    //it should check for out of bounds by subtracting footballSim.gameInformation.positionY from footballSim.gameInformation.topBoundary if it is positive or footballSim.gameInformation.bottomBoundary if it is negative
+    checkFirstDown : function () {},
+    //it should check for first down by subtracting footballSim.gameInformation.positionX*footballSim.gameInformation.posession from footballSim.gameInformation.firstDownPositionX*footballSim.gameInformation.posession
+    checkScore : function () {},
+    //it should consider the last play called and if that play is a field goal it should check whether the field goal was good or no good and if it is good it should output 3, if not it should output 0
+    //it should consider the last play called and if that play is an extra point it should check whether the extra point was good or no good and if it is good it should output 1, if not it should output 0
+    //it should consider the last play called and if that play is a two point conversion it should check for score
+    //it should check for score by calculating (footballSim.gameInformation.positionX*footballSim.gameInformation.posession) - (footballSim.gameInformation.teamOneGoal) and if this value is negative it should output 0 but if it is positive it should output 2
+    //it should consider the last play called and if that play is any other play than mentioned above it should check for score
+    //it should check for score by calculating (footballSim.gameInformation.positionX*footballSim.gameInformation.posession) - (footballSim.gameInformation.teamOneGoal) and if this value is negative it should output 0 but if it is positive it should output 6
+    checkClockRoll : function () {},
+    //it should check for clock roll by (please flowchart this holy fucc)
+    //it should rng for that amount conditionally
+    //it should change the clock based on that rng'd amount
+    
+    enforcePenaltyRun : function () {
+      let a = footballSim.gameInformation.lastPlayFlagOffense;
+      let b = footballSim.gameInformation.lastPlayFlagDefense;
+      if (a = true) {
+        let c = Math.floor(Math.random()*100);
+        if (c < 2) {
+          footballSim.targetingOffense ()
+        } else if (c >= 2 && c < 4) {
+          footballSim.tauntingOffense ()
+        } else if (c >= 4 && c < 6) {
+          footballSim.chopBlock ()
+        } else if (c >= 6 && c < 8) {
+          footballSim.illegalUseOfHandsOffense ()
+        } else if (c >= 8 && c < 11) {
+          footballSim.unsportsmanlikeConductOffense ()
+        } else if (c >= 11 && c < 16) {
+          footballSim.unnecessaryRoughnessOffense ()
+        } else {
+          footballSim.holdingOffense ()
+        }
+      } else if (b = true) {
+        let d = Math.floor(Math.random()*100);
+        if (d < 1) {
+          footballSim.illegalSubstitutionDefense ()
+        } else if (d >= 1 && d < 2) {
+          footballSim.targetingDefense ()
+        } else if (d >= 2 && d < 3) {
+          footballSim.trippingPenalty ()
+        } else if (d >= 3 && d < 4) {
+          footballSim.tauntingDefense ()
+        } else if (d >= 4 && d < 6) {
+          footballSim.horsecollarPenalty ()
+        } else if (d >= 6 && d < 8) {
+          footballSim.illegalUseOfHandsDefense ()
+        } else if (d >= 8 && d < 12) {
+          footballSim.unsportsmanlikeConductDefense ()
+        } else if (d >= 12 && d < 18) {
+          footballSim.tooManyMenOnFieldDefense ()
+        } else if (d >= 18 && d < 27) {
+          footballSim.unnecessaryRoughnessDefense ()
+        } else if (d >= 27 && d < 38) {
+          footballSim.facemaskPenalty ()
+        } else if (d >= 38 && d < 59) {
+          footballSim.offsidesPenalty ()
+        } else {
+          footballSim.holdingDefense ()
+        }
+      } else if (a = true && b = true) {
+        footballSim.enforceScore ()
+      } else {
+        footballSim.enforceScore ()
+      }
+    },
+    //etc (pass, kickoff, etc)
+    
+    enforceScore : function () {},
+    //
+    
+    checkQuarterChange : function () {},
+    //it should check for change in quarter by checking if clock value after clock is <= 0
+    //if the clock should change it should change the clock back to 900
+    //if the quarter should change it should add 1 to the quarter
+    //if it is the end of the second quarter it should also set footballSim.gameInformation.posession equal to footballSim.gameInformation.openingKickoffReceivingTeam, position to 
+    //if it is the end of the game it should run an end of game display function
+    
+    
+    
+    //post-play conditional functions
+    
+    
+    
+    //
+    //
+    //Decision
+    //Making
+    //Functions
+    //
+    //
+    
+    
+    decidePlayByDistance : function () {
+        let a = footballSim.gameInformation.teamNegativeOneScore;
+        let b = footballSim.gameInformation.teamOneScore;
+        let d = footballSim.gameInformation.quarter;
+        let x = footballSim.gameInformation.posession;
+        let y = footballSim.gameInformation.positionX;
+        let c = (b-a)*x;
+        let z = x*y;
+        if (z >= 0 && z < 45) {
+        console.log ('Kick')
+        } else if (z >= 45) {
+        if (d <= 1) {
+            if (c <= -42) {
+            footballSim.decidePlayOnSecondDown ()
+            } else {
+            console.log ('Kick')
+            }
+        } else if (d <= 2) {
+            if (c <= -35) {
+            footballSim.decidePlayOnSecondDown ()
+            }
+        } else if (d <=3) {
+            if (c <= -28) {
+            footballSim.decidePlayOnSecondDown ()
+            } else {
+            console.log ('Kick')
+            }
+        } else {
+            if (c <= -21) {
+            footballSim.decidePlayOnSecondDown ()
+            } else {
+            console.log ('Kick')
+            }
+        }  
+        } else {
+        console.log ('Punt')
+        }
+    },
+    
+    
+    
+    //used on fourth down non-clock-stop occasions
+    
+    
+    
+    decidePlayOnFirstDown : function () {
+        let a = Math.floor(Math.random()*100);
+        let w = footballSim.gameInformation.firstDownPositionX;
+        let x = footballSim.gameInformation.positionX;
+        let y = footballSim.gameInformation.posession;
+        let z = (y*w)-(y*x);
+        if (z >= 1 && z < 6) {
+        if (a >= 65) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else if (z >= 6 && z > 11) {
+        if (a >= 55) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else {
+        if (a >= 50) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        }
+    },
+    decidePlayOnSecondDown : function () {
+        let a = Math.floor(Math.random()*100);
+        let w = footballSim.gameInformation.firstDownPositionX;
+        let x = footballSim.gameInformation.positionX;
+        let y = footballSim.gameInformation.posession;
+        let z = (y*w)-(y*x);
+        if (z >= 1 && z < 4) {
+        if (a >= 81) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else if (z >= 4 && z < 10) {
+        if (a >= 40) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else if (z >= 10 && z <= 20) {
+        if (a >= 25) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else {
+        if (a >= 10) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        }
+    },
+    decidePlayOnThirdDown : function () {
+        let a = Math.floor(Math.random()*100);
+        let w = footballSim.gameInformation.firstDownPositionX;
+        let x = footballSim.gameInformation.positionX;
+        let y = footballSim.gameInformation.posession;
+        let z = (y*w)-(y*x);
+        if (z >= 1 && z < 4) {
+        if (a >= 81) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else if (z >= 4 && z < 10) {
+        if (a >= 45) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else if (z >= 10 && z <= 20) {
+        if (a >= 10) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        } else {
+        if (a >= 95) {
+            console.log ('Pass')
+        } else {
+            console.log ('Run')
+        }
+        }
+    },
+    
+    
+    
+    //building blocks for decidePlayByDown, based on playcalling data by down
+    
+    
+    
+    decidePlayByScoreDrive : function () {
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (w-v)*x;
+        if (z > 0) {
+        console.log('Run')
+        } else {
+        console.log('Pass')
+        }
+    },
+    
+    
+    
+    //used in clock-stop situations for clock management first through third down
+    
+    
+    
+    decidePlayByScoreEndFgRange : function () {
+        let v = footballSim.gameInformation.positionX;
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (x-w)*x;
+        if (z >= -3 && z <= 0) {
+        console.log('Kick')
+        } else if (z < -3) {
+        console.log('Hail mary')
+        } else {
+        console.log('Kick')
+        }
+    },
+    decidePlayByScoreEndNoFgRange : function () {
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (x-w)*x;
+        if (z < 0) {
+        console.log('Hail mary')
+        } else {
+        console.log('Punt')
+        }
+    },
+    
+    
+    
+    //building blocks for decidePlayByScoreAndDistanceEnd, used on fourth down situations depending on distance, only ever used in fourth quarter
+    
+    
+    
+    decidePlayByScoreAndDistanceEnd : function () {
+        let x = footballSim.gameInformation.distanceX;
+        let y = footballSim.gameInformation.posession;
+        let z = x*y;
+        if (z < 0) {
+        footballSim.decidePlayByScoreEndNoFgRange ()
+        } else {
+        footballSim.decidePlayByScoreEndFgRange ()
+        }
+    },
+    
+    
+    
+    //parent function for above two functions, used in fourth quarter fourth-down clock stopping situations 
+    
+    
+    
+    decidePlayByScoreLastPlayFgRangeDrive : function () {
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (x-w)*x;
+        if (z > 0) {
+        console.log('Run')
+        } else if (z >= -3 && z <= 0) {
+        console.log('Kick')
+        } else {
+        console.log('Hail mary')
+        }
+    },
+    decidePlayByScoreLastPlayNoFgRangeDrive : function () {
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (x-w)*x;
+        if (z > 0) {
+        console.log('Run')
+        } else {
+        console.log('Hail mary')
+        }
+    },
+    
+    
+    
+    //building blocks for decidePlayByScoreAndDistanceLastPlayDrive, represent first through third down situations where the clock is less than 10 seconds, likely the last play but security in the fact that if it isn't the team still has posession
+    
+    
+    
+    decidePlayByScoreLastPlayFgRangeEnd : function () {
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (x-w)*x;
+        if (z >= -3) {
+        console.log('Kick')
+        } else {
+        console.log('Hail mary')
+        }
+    },
+    decidePlayByScoreLastPlayNoFgRangeEnd : function () {
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = footballSim.gameInformation.posession;
+        let z = (x-w)*x;
+        if (z > 0) {
+        console.log('Punt')
+        } else {
+        console.log('Hail mary')
+        }
+    },
+    
+    
+    
+    //building blocks for decidePlayByScoreAndDistanceLastPlayEnd, represend fourth down situations where clock is less than 10 seconds, less security in play not being the last play, so teams must make a more conservative decision
+    
+    
+    
+    decidePlayByScoreAndDistanceLastPlayDrive : function () {
+        let x = footballSim.gameInformation.distanceX;
+        let y = footballSim.gameInformation.posession;
+        let z = x*y;
+        if (z < 0) {
+        footballSim.decidePlayByScoreLastPlayNoFgRangeDrive ()
+        } else {
+        footballSim.decidePlayByScoreLastPlayFgRangeDrive ()
+        }
+    },
+    decidePlayByScoreAndDistanceLastPlayEnd : function () {
+        let x = footballSim.gameInformation.distanceX;
+        let y = footballSim.gameInformation.posession;
+        let z = x*y;
+        if (z < 0) {
+        footballSim.decidePlayByScoreLastPlayNoFgRangeEnd ()
+        } else {
+        footballSim.decidePlayByScoreLastPlayFgRangeEnd ()
+        }
+    },
+    
+    
+    
+    
+    //parent functions for above four functions, only used in fourth quarter situations where clock is less than 10 seconds
+    
+    
+    
+    decidePlaySecondQuarterFinalSeconds : function () {
+        let t = footballSim.gameInformation.posession;
+        let u = footballSim.gameInformation.distanceX;
+        let v = footballSim.gameInformation.down;
+        let w = footballSim.gameInformation.teamNegativeOneScore;
+        let x = footballSim.gameInformation.teamOneScore;
+        let y = u*t;
+        let z = (x-w)*t
+        if (y < 0) {
+        if (v < 4) {
+            if (z >= 14) {
+            console.log ('Run')
+            } else {
+            console.log ('Hail mary')
+            }
+        } else {
+            console.log ('Hail mary')
+        }
+        } else if (y >= 0 && y < 45) {
+        if (v < 4) {
+            if (z >= 28) {
+            console.log ('Run')
+            } else {
+            console.log ('Kick')
+            }
+        } else {
+            console.log ('Kick')
+        }
+        } else {
+        if (v < 4) {
+            if (z >= -35) {
+            console.log ('Kick')
+            } else {
+            console.log ('Pass')
+            }
+        } else {
+            console.log ('Kick')
+        }
+        }
+    },
+    
+    
+    //this is a long ass function that could have been divided but i flowcharted it before hand so i just decided to put it all into one function, it's used in the second quarter in the final 10 seconds
+    
+    
+    
+    decidePlayByDown : function () {
+        let x = footballSim.gameInformation.down;
+        if (x = 1) {
+        footballSim.decidePlayOnFirstDown ()
+        } else if (x = 2) {
+        footballSim.decidePlayOnSecondDown ()
+        } else if (x = 3) {
+        footballSim.decidePlayOnThirdDown ()
+        } else {
+        console.log ('decide Play By Down shouldnt be running on fourth down... or zeroth down?')
+        }
+    },
+    
+    
+    
+    //parent function for down functions based on playcall data by down
+    
+    
+    
+    decidePlayFirstThirdQuarters : function () {
+        let x = footballSim.gameInformation.down;
+        if (x < 4) {
+        footballSim.decidePlayByDown ()
+        } else {
+        footballSim.decidePlayByDistance ()
+        }
+    },
+    decidePlaySecondQuarter : function () {
+        let x = footballSim.gameInformation.clock;
+        let y = footballSim.gameInformation.down;
+        if (x > 120) {
+          footballSim.decidePlayFirstThirdQuarters ()
+        } else if (x > 10 && x <= 120) {
+          if (y < 4) {
+              footballSim.decidePlayByScoreDrive ()
+          } else {
+              footballSim.decidePlayByDistance ()
+          }
+        } else {
+        footballSim.decidePlaySecondQuarterFinalSeconds ()
+        }
+    },
+    decidePlayFourthQuarter : function () {
+        let x = footballSim.gameInformation.clock;
+        let y = footballSim.gameInformation.down;
+        if (x > 300) {
+          footballSim.decidePlayFirstThirdQuarters ()
+        } else if (x > 120 && x <= 300) {
+          if (y < 4) {
+            footballSim.decidePlayByScoreDrive ()
+          } else {
+            footballSim.decidePlayByDistance ()
+          }
+        } else if (x > 10 && x <= 120) {
+          if (y < 4) {
+            footballSim.decidePlayByScoreDrive ()
+          } else {
+            footballSim.decidePlayByScoreAndDistanceEnd ()
+          }
+        } else {
+          if (y < 4) {
+            footballSim.decidePlayByScoreAndDistanceLastPlayDrive ()
+        } else {
+            footballSim.decidePlayByScoreAndDistanceLastPlayEnd ()
+        }
+        }
+    },
+    
+    
+    
+    //second gen parent functions by clock in certain quarter situations
+    
+    
+
+    decidePlay : function () {
+        let x = footballSim.gameInformation.quarter;
+        if (x <= 1) {
+        footballSim.decidePlayFirstThirdQuarters ()
+        } else if (x = 2) {
+        footballSim.decidePlaySecondQuarter ()
+        } else if (x = 3) {
+        footballSim.decidePlayFirstThirdQuarters ()
+        } else {
+        footballSim.decidePlayFourthQuarter ()
+        }
+    },
+    
+    
+    
+    //third gen parent function, ultimate parent of decision making functions
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
